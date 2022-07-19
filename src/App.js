@@ -5,6 +5,7 @@ import './App.css';
 
 // components
 import ExportToExcel from './components/ExportToExcel';
+import ImportExcel from './components/ImportExcel';
 import {
   Grid,
   Typography,
@@ -125,7 +126,7 @@ const columns = [
     id: 'id', 
     label: 'ID', 
     minWidth: 20,
-    format: (value) => (value + 1).toString(),
+    format: (value) => value.toString(),
     align: 'center',
   },
   { 
@@ -375,6 +376,7 @@ function App() {
                 sx={{ marginTop: 2, marginBottom: 2, }}
               >
                 <Grid item>
+                  <ImportExcel onChange={setRows}/>
                   <Box width={"100%"} sx={{ m: 1 }}>
                     <LinearProgress value={progress} />
                   </Box>
