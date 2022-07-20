@@ -35,11 +35,14 @@ import {
   Box,
 } from '@mui/material';
 import LinearProgress from './components/LinearProgress';
+import Tour from 'reactour';
+import Timeline from './components/Timeline';
 
 // assets
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import LinkIcon from '@mui/icons-material/Link';
 import TaskAltIcon from '@mui/icons-material/TaskAlt';
+import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 
 const DEFAULT_DATA = [
   {
@@ -153,14 +156,25 @@ const columns = [
   },
 ];
 
-
+const steps = [ 
+  { selector: "#first-step", content: "You may choose to import a file if you already have one.", }, 
+  { selector: "#second-step", content: "Should you wish to download a default sample template, click here. Afterwhich, you may add (DO NOT DELETE OR ADD NEW COLUMNS) more rows to fit your needs", }, 
+  { selector: "#third-step", content: "Click on this icon to start extraction of this particular link", }, 
+  { selector: "#fourth-step", content: "This will open up a dialog for your easy access to the websites.", }, 
+  { selector: "#fifth-step", content: "Click on this icon to open up a new tab to the specific page / url", }, 
+  { selector: "#sixth-step", content: "Not sure where to start? Click on this for a visual guide!", }, 
+  { selector: "#seventh-step", content: "Once you copy the elements from the website, paste it in this text field.", }, 
+  { selector: "#eight-step", content: "Repeat the previous steps (3 to 5) for the next few items", }, 
+  { selector: "#ninth-step", content: "This progress bar shows you the status of completion for the entire listing.", }, 
+  { selector: "#last-step", content: "Click here to download the entire listing in excel .xlsx extension.", }, 
+];
 
 // ==================== ACTUAL ====================== //
 
 function App() {
   const [rows, setRows] = useState([]);
   const [isLoaded, setIsLoaded] = useState(false);
-  const [open, setOpen] = useState(false);
+
 
   useEffect(() => {
     async function getRows() {
@@ -169,7 +183,6 @@ function App() {
     }
     getRows();
   }, [])
-
 
   // ============================================================================================================================
   // ===== PROGRESS =====
@@ -184,6 +197,12 @@ function App() {
     }
     calculateProgress();
   }, [rows])
+
+  const ProgressBar = () => (
+    <Box width={"100%"} sx={{ m: 1 }} id="ninth-step">
+      <LinearProgress value={progress} />
+    </Box>
+  )
 
   // ============================================================================================================================
   // ===== HANDLE TEXT =====
@@ -218,12 +237,31 @@ function App() {
   }
 
   // ============================================================================================================================
-  // ===== MODAL =====
+  // ===== TUTORIAL =====
   // ============================================================================================================================
+  const [isTourOpen, setIsTourOpen] = useState(false);
+  const [currentStep, setCurrentStep] = useState(0);
+  const tourDialogScope = [3, 4, 5, 6];
+  const handleStartTour = () => {
+    setIsTourOpen(true)
+  }
+  
+  const handleCloseTour = () => {
+    setCurrentStep(0)
+    setIsTourOpen(false)
+  }
+
+  const TourButton = () => (<Button variant="contained" color="error" onClick={handleStartTour} startIcon={<HelpOutlineIcon />}>Help</Button>)
+
+  // ============================================================================================================================
+  // ===== MODAL INPUT =====
+  // ============================================================================================================================
+  const [open, setOpen] = useState(false);
   const [modalData, setModalData] = useState(null);
   const handleOpenModal = (data) => {
-    setModalData(data)
-    setOpen(true)
+    setIsTourOpen(false);  // close tour mode if it is open
+    setModalData(data);
+    setOpen(true);
   }
 
   const handleCloseModal = () => {
@@ -235,6 +273,117 @@ function App() {
   const handleOpenLink = () => {
     window.open(modalData.url, '_blank');
   }
+
+  const ModalInput = () => (
+    <Dialog 
+      open={open || tourDialogScope.indexOf(currentStep) !== -1 } // for the tour, default make it always visible but hide it with style
+      onClose={handleCloseModal} 
+      id="fourth-step"
+    >
+      <DialogTitle>Extract Content</DialogTitle>
+      <DialogContent>
+        <DialogContentText>
+          <Typography>
+            Steps to follow:
+          </Typography>
+          <Typography>
+            1. Click on the 'link' icon to navigate to the link (opens a new tab).
+          </Typography>
+          <Typography>
+            2. Open inspector by right click and click on 'Inspect' or press F12
+          </Typography>
+          <Typography>
+            3. Right click 'nav' tag element and copy entire element
+          </Typography>
+          <Button size="large" onClick={handleOpenModalGuide} id="sixth-step">
+            Show me visually
+          </Button>
+        </DialogContentText>
+        <Card variant="outlined" sx={{ marginTop: 2, }}>
+          <CardContent>
+          <FormControl variant="outlined" fullWidth>
+            <InputLabel htmlFor="outlined-adornment-password">URL Link</InputLabel>
+            <OutlinedInput
+              type={'text'}
+              value={modalData?.url}
+              fullWidth
+              disabled
+              endAdornment={
+                <InputAdornment position="end">
+                  <IconButton
+                    id="fifth-step"
+                    aria-label="toggle password visibility"
+                    edge="end"
+                    onClick={handleOpenLink}
+                  >
+                    <LinkIcon />
+                  </IconButton>
+                </InputAdornment>
+              }
+              label="URL Link"
+            />
+          </FormControl>
+          </CardContent>
+        </Card>
+        <TextField
+          id="seventh-step"
+          autoFocus
+          margin="dense"
+          label="Copy-paste elements here"
+          fullWidth
+          multiline
+          rows={10}
+          sx={{ marginTop: 5, }}
+          value={text} 
+          onChange={handleChangeText}
+        />
+      </DialogContent>
+      <DialogActions sx={{ m: 2, }}>
+        <Button onClick={handleCloseModal}>Cancel</Button>
+        <Button variant="contained" size="large" onClick={handleConfirm} sx={{ m: 1 }}>Done</Button>
+      </DialogActions>
+    </Dialog>
+  )
+
+  // ============================================================================================================================
+  // ===== MODAL GUIDE VISUAL =====
+  // ============================================================================================================================
+  const [openModalGuide, setOpenModalGuide] = useState(false);
+  const handleOpenModalGuide = () => {
+    setIsTourOpen(false);  // close tour mode if it is open
+    setOpenModalGuide(true)
+  }
+
+  const handleCloseModalGuide = () => {
+    setOpenModalGuide(false)
+  }
+
+  const ModalGuide = () => (
+    <Dialog
+      open={openModalGuide}
+      onClose={handleCloseModalGuide}
+      scroll={'body'}
+      fullWidth
+      maxWidth="lg"
+      aria-labelledby="scroll-dialog-title"
+      aria-describedby="scroll-dialog-description"
+    >
+      <DialogTitle id="scroll-dialog-title">Visual Guide</DialogTitle>
+      <DialogContent dividers={false}>
+        <DialogContentText
+          id="scroll-dialog-description"
+          tabIndex={-1}
+        >
+          <Timeline />
+        </DialogContentText>
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={handleCloseModalGuide} size="large">Okay</Button>
+      </DialogActions>
+    </Dialog>
+  )
+  
+
 
   // ============================================================================================================================
   // ===== TABLE =====
@@ -248,6 +397,79 @@ function App() {
     setRowsPerPage(+event.target.value);
     setPage(0);
   };
+
+  const DataTable = () => (
+    <Paper sx={{ width: '100%', overflow: 'hidden' }}>
+      <TableContainer sx={{ maxHeight: 440 }}>
+        <Table stickyHeader aria-label="sticky table">
+          <TableHead>
+            <TableRow>
+              {columns.map((column) => {
+                return (
+                  <TableCell
+                    key={column.id}
+                    align={column.align}
+                    style={{ minWidth: column.minWidth }}
+                  >
+                    {column.label}
+                  </TableCell>
+                )
+              })}
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {rows
+              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+              .map((row, rowIndex) => {
+                return (
+                  <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
+                    {columns.map((column) => {
+                      if(column.id === 'action') {
+                        // seperate based on row index just for the tour. This will be the third step
+                        if(rowIndex === 0) {
+                          return (
+                            <TableCell key={`${row.id}-${column.id}`} align={column.align} id='third-step'>
+                              <IconButton color="primary" aria-label="upload picture" component="label" onClick={() => handleOpenModal(row)}>
+                                {row.data ? <TaskAltIcon color="success" /> : <MoreHorizIcon />}
+                              </IconButton>
+                            </TableCell>
+                          )
+                        }
+                        // this will be subsequent steps to prompt complete all
+                        return (
+                          <TableCell key={`${row.id}-${column.id}`} align={column.align} id='eight-step'>
+                            <IconButton color="primary" aria-label="upload picture" component="label" onClick={() => handleOpenModal(row)}>
+                              {row.data ? <TaskAltIcon color="success" /> : <MoreHorizIcon />}
+                            </IconButton>
+                          </TableCell>
+                        )
+                      }
+                      const value = row[column.id];
+                      return (
+                        <TableCell key={`${row.id}-${column.id}`} align={column.align}>
+                          {column.format && typeof value === 'number'
+                            ? column.format(value)
+                            : value}
+                        </TableCell>
+                      );
+                    })}
+                  </TableRow>
+                );
+              })}
+          </TableBody>
+        </Table>
+      </TableContainer>
+      <TablePagination
+        rowsPerPageOptions={[10, 25, 50, 100]}
+        component="div"
+        count={rows.length}
+        rowsPerPage={rowsPerPage}
+        page={page}
+        onPageChange={handleChangePage}
+        onRowsPerPageChange={handleChangeRowsPerPage}
+      />
+    </Paper>
+  )
 
   // ============================================================================================================================
   // ===== SSO =====
@@ -377,137 +599,31 @@ function App() {
               >
                 <Grid item>
                   <ImportExcel onChange={setRows}/>
-                  <Box width={"100%"} sx={{ m: 1 }}>
-                    <LinearProgress value={progress} />
-                  </Box>
-                  <Paper sx={{ width: '100%', overflow: 'hidden' }}>
-                    <TableContainer sx={{ maxHeight: 440 }}>
-                      <Table stickyHeader aria-label="sticky table">
-                        <TableHead>
-                          <TableRow>
-                            {columns.map((column) => {
-                              return (
-                                <TableCell
-                                  key={column.id}
-                                  align={column.align}
-                                  style={{ minWidth: column.minWidth }}
-                                >
-                                  {column.label}
-                                </TableCell>
-                              )
-                            })}
-                          </TableRow>
-                        </TableHead>
-                        <TableBody>
-                          {rows
-                            .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                            .map((row) => {
-                              return (
-                                <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
-                                  {columns.map((column) => {
-                                    if(column.id === 'action') {
-                                      return (
-                                        <TableCell key={`${row.id}-${column.id}`} align={column.align}>
-                                          <IconButton color="primary" aria-label="upload picture" component="label" onClick={() => handleOpenModal(row)}>
-                                            {row.data ? <TaskAltIcon color="success" /> : <MoreHorizIcon />}
-                                          </IconButton>
-                                        </TableCell>
-                                      )
-                                    }
-                                    const value = row[column.id];
-                                    return (
-                                      <TableCell key={`${row.id}-${column.id}`} align={column.align}>
-                                        {column.format && typeof value === 'number'
-                                          ? column.format(value)
-                                          : value}
-                                      </TableCell>
-                                    );
-                                  })}
-                                </TableRow>
-                              );
-                            })}
-                        </TableBody>
-                      </Table>
-                    </TableContainer>
-                    <TablePagination
-                      rowsPerPageOptions={[10, 25, 50, 100]}
-                      component="div"
-                      count={rows.length}
-                      rowsPerPage={rowsPerPage}
-                      page={page}
-                      onPageChange={handleChangePage}
-                      onRowsPerPageChange={handleChangeRowsPerPage}
-                    />
-                  </Paper>
+                  <TourButton />
+                  <ProgressBar />
+                  <DataTable />
                 </Grid>
-
-                <Dialog open={open} onClose={handleCloseModal}>
-                  <DialogTitle>Extract Content</DialogTitle>
-                  <DialogContent>
-                    <DialogContentText>
-                      <Typography>
-                        Steps to follow:
-                      </Typography>
-                      <Typography>
-                        1. Click on the 'copy' icon to open the link
-                      </Typography>
-                      <Typography>
-                        2. Open inspector by right click and click on 'Inspect' or press F12
-                      </Typography>
-                      <Typography>
-                        3. Right click 'nav' tag element and copy entire element
-                      </Typography>
-                    </DialogContentText>
-                    <Card variant="outlined" sx={{ marginTop: 2, }}>
-                      <CardContent>
-                      <FormControl variant="outlined" fullWidth>
-                        <InputLabel htmlFor="outlined-adornment-password">URL Link</InputLabel>
-                        <OutlinedInput
-                          id="outlined-adornment-password"
-                          type={'text'}
-                          value={modalData?.url}
-                          onChange={() => {}}
-                          fullWidth
-                          endAdornment={
-                            <InputAdornment position="end">
-                              <IconButton
-                                aria-label="toggle password visibility"
-                                edge="end"
-                                onClick={handleOpenLink}
-                              >
-                                <LinkIcon />
-                              </IconButton>
-                            </InputAdornment>
-                          }
-                          label="URL Link"
-                        />
-                      </FormControl>
-                      </CardContent>
-                    </Card>
-                    <TextField
-                      autoFocus
-                      margin="dense"
-                      id="copy"
-                      label="Copy-Paste elements here"
-                      fullWidth
-                      multiline
-                      rows={10}
-                      sx={{ marginTop: 5, }}
-                      value={text} 
-                      onChange={handleChangeText}
-                    />
-                  </DialogContent>
-                  <DialogActions sx={{ m: 2, }}>
-                    <Button onClick={handleCloseModal}>Cancel</Button>
-                    <Button variant="contained" size="large" onClick={handleConfirm} sx={{ m: 1 }}>Done</Button>
-                  </DialogActions>
-                </Dialog>
-
-                <ExportToExcel dataset={rows} fileName={`export_${new Date().toISOString()}`}/>
+                <Grid item>
+                  <ExportToExcel 
+                    dataset={rows} 
+                    fileName={`export_${new Date().toISOString()}`}
+                  />
+                </Grid>
               </Grid>
+              <ModalInput />
+              <ModalGuide />
             </Box>
           )
         }
+        <Tour
+          goToStep={currentStep}
+          steps={steps}
+          isOpen={isTourOpen}
+          onRequestClose={handleCloseTour}
+          rounded={5}
+          getCurrentStep={(step) => setCurrentStep(step)}
+          startAt={0}
+        />
       </header>
     </div>
   );

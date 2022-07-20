@@ -3,6 +3,7 @@ import * as XLSX from "xlsx";
 import {
     Button,
 } from '@mui/material';
+import UploadIcon from '@mui/icons-material/Upload';
 
 export default function ImportExcel({ onChange }) {
 
@@ -41,35 +42,10 @@ export default function ImportExcel({ onChange }) {
         };
         reader.readAsBinaryString(file);
 
-        // const promise = new Promise((resolve, reject)=>{
-        //     const fileReader = new FileReader();
-        //     fileReader.readAsArrayBuffer(file);
-        //     fileReader.onload=(e)=>{
-        //         const bufferArray = e.target.result;
-        //         const wb = {SheetNames:[], Sheets:{}};
-        //         const ws1 = XLSX.read(bufferArray, {type:"buffer"}).Sheets.Sheet1;
-        //         const ws2 = XLSX.read(bufferArray, {type:"buffer"}).Sheets.Sheet2;
-                
-        //         wb.SheetNames.push("Sheet1"); wb.Sheets["Sheet1"] = ws1;
-        //         wb.SheetNames.push("Sheet2"); wb.Sheets["Sheet2"] = ws2;
-            
-        //         const data1 = XLSX.utils.sheet_to_json(ws1);
-        //         const data2 = XLSX.utils.sheet_to_json(ws2);
-        
-        //         resolve([data1, data2]);
-        //     };
-        //     fileReader.onerror=(error) => {
-        //         reject(error);
-        //     };
-        // });
-        // promise.then((excelData) => {
-        //     items.push(excelData);
-        //     console.log(excelData);
-        // });
     }
 
     return (
-        <Button color="primary" variant="contained" sx={{ m: 2 }} component="label" onChange={importFile}>
+        <Button color="primary" variant="contained" sx={{ m: 2 }} component="label" id="first-step" onChange={importFile} startIcon={<UploadIcon />}>
             <input hidden type="file" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"/>
             Import
         </Button>

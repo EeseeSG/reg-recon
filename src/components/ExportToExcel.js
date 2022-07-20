@@ -4,6 +4,7 @@ import {
     Button,
     ButtonGroup,
 } from '@mui/material';
+import DownloadIcon from '@mui/icons-material/Download';
 
 export default function ExportToExcel({ dataset, fileName="export" }) {
     const fileExtension = ".xlsx";
@@ -46,8 +47,8 @@ export default function ExportToExcel({ dataset, fileName="export" }) {
 
     return (
         <ButtonGroup variant="contained">
-            <Button color="primary" variant="contained" sx={{ m: 2 }} onClick={downloadOverview}>Download Overview Only</Button>
-            <Button color="success" variant="contained" sx={{ m: 2 }} onClick={download}>Download Now</Button>
+            <Button color="primary" variant="contained" sx={{ m: 2 }} onClick={downloadOverview} id="second-step" startIcon={<DownloadIcon />}>Download Overview Only</Button>
+            <Button color="success" variant="contained" sx={{ m: 2 }} onClick={download} id="last-step" startIcon={<DownloadIcon />}>Download Now</Button>
         </ButtonGroup>
     );
 };
