@@ -47,76 +47,83 @@ import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 const DEFAULT_DATA = [
   {
     id: 0,
+    type: 'WEB',
+    name: 'MAS full list of regulation',
+    url: 'https://www.mas.gov.sg/regulation/regulations-and-guidance?rows=All',
+    source: 'mas',
+  },
+  {
+    id: 1,
     type: 'ACT',
     name: 'Currency Act 1967',
     url: 'https://sso.agc.gov.sg/Act/CA1967',
     source: 'sso',
   },
   {
-    id: 1,
+    id: 2,
     type: 'ACT',
     name: 'Deposit Insurance an Policy Owners’ Protection Schemes ACT 2011',
     url: 'https://sso.agc.gov.sg/Act/DIPOPSA2011',
     source: 'sso',
   },
   {
-    id: 2,
+    id: 3,
     type: 'ACT',
     name: 'Banking Act 1970',
     url: 'https://sso.agc.gov.sg/Act/BA1970',
     source: 'sso',
   },
   {
-    id: 3,
+    id: 4,
     type: 'ACT',
     name: 'Securities and Futures Act 2001',
     url: 'https://sso.agc.gov.sg/Act/SFA2001',
     source: 'sso',
   },
   {
-    id: 4,
+    id: 5,
     type: 'ACT',
     name: 'Financial Advisors Act 2001',
     url: 'https://sso.agc.gov.sg/Act/FAA2001',
     source: 'sso',
   },
   {
-    id: 5,
+    id: 6,
     type: 'ACT',
     name: 'Insurance Act 1966',
     url: 'https://sso.agc.gov.sg/Act/IA1966',
     source: 'sso',
   },
   {
-    id: 6,
+    id: 7,
     type: 'ACT',
     name: 'Payment Services Act 2019',
     url: 'https://sso.agc.gov.sg/Acts-Supp/2-2019/Published/20190220?DocDate=20190220',
     source: 'sso',
   },
   {
-    id: 7,
+    id: 8,
     type: 'ACT',
     name: 'Payment and Settlement Systems (Finality and Netting Act) 2002',
     url: 'https://sso.agc.gov.sg/Act/PSSFNA2002',
     source: 'sso',
   },
   {
-    id: 8,
+    id: 9,
     type: 'ACT',
     name: 'MAS Act (Cap. 186)',
     url: 'https://sso.agc.gov.sg/Act/MASA1970',
     source: 'sso',
   },
   {
-    id: 9,
+    id: 10,
     type: 'ACT',
     name: 'Banking (Publication and Provision of Accounts) Regulation',
     url: 'https://sso.agc.gov.sg/SL/19-RG2?DocDate=20040229',
     source: 'sso',
   },
   {
-    id: 10,
+    id: 11,
     type: 'ACT',
     name: "Deposit Insurance and Policy Owners' Protection Schemes (Deposit Insurance) Regulations 2011",
     url: 'https://sso.agc.gov.sg/Act/MASA1970',
@@ -218,7 +225,7 @@ function App() {
   const handleConfirm = async () => {
     let submit_results
     if(modalData.source === 'sso') {
-      submit_results = handleSubmitSSO(text);
+      submit_results = handleSubmitSSO(text, modalData.name);
     } else {
       submit_results = handleSubmitMAS(text);
     }
@@ -295,8 +302,8 @@ function App() {
           <Typography>
             3. Right click 'nav' tag element and copy entire element
           </Typography>
-          <Button size="large" onClick={handleOpenModalGuide} id="sixth-step">
-            Show me visually
+          <Button size="large" variant="outlined" sx={{ m: 2, }} onClick={handleOpenModalGuide} id="sixth-step">
+            Show me visually (for {modalData?.source?.toUpperCase()})
           </Button>
         </DialogContentText>
         <Card variant="outlined" sx={{ marginTop: 2, }}>
@@ -368,13 +375,13 @@ function App() {
       aria-labelledby="scroll-dialog-title"
       aria-describedby="scroll-dialog-description"
     >
-      <DialogTitle id="scroll-dialog-title">Visual Guide</DialogTitle>
+      <DialogTitle id="scroll-dialog-title">Visual Guide ({modalData?.source?.toUpperCase()})</DialogTitle>
       <DialogContent dividers={false}>
         <DialogContentText
           id="scroll-dialog-description"
           tabIndex={-1}
         >
-          <Timeline />
+          <Timeline type={modalData?.source}/>
         </DialogContentText>
       </DialogContent>
       <DialogActions>
@@ -474,7 +481,8 @@ function App() {
   // ============================================================================================================================
   // ===== SSO =====
   // ============================================================================================================================
-  const handleSubmitSSO = (text) => {
+  const handleSubmitSSO = (text, reg_type) => {
+
     var el = document.createElement( 'html' );
     el.innerHTML = text;
     const search_results = el.getElementsByClassName('toc')[0];
@@ -514,7 +522,7 @@ function App() {
     const final_result = parent_array.map((i) => {
       const val = i[0];
       const header = header_map[val];
-      return [header, ...i] 
+      return [reg_type, header, ...i] 
     })
 
     // add in schedules
@@ -526,12 +534,12 @@ function App() {
         const split_desc = full_description.replace('  ', '').split('\n').join(' ').split(' ');
         const section = split_desc[0] + " SCHEDULE";
         const description = split_desc.filter(x => typeof x === 'string' && x.length > 0).join(' ');
-        schedule_array.push(['Schedule', 'Schedule', full_description, section, description])
+        schedule_array.push([reg_type, 'Schedule', 'Schedule', full_description, section, description])
       }
     }
 
     // set headers
-    const headers_name = ['Section Name', 'Section', 'Full Description', 'Section Number', 'Description'];
+    const headers_name = ['Regulation', 'Section Name', 'Section', 'Full Description', 'Section Number', 'Description'];
 
     // return results
     return [headers_name, ...final_result, ...schedule_array]
