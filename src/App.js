@@ -411,10 +411,10 @@ function App() {
         <Table stickyHeader aria-label="sticky table">
           <TableHead>
             <TableRow>
-              {columns.map((column) => {
+              {columns.map((column, colIndex) => {
                 return (
                   <TableCell
-                    key={column.id}
+                    key={`${column.id}-${colIndex}`}
                     align={column.align}
                     style={{ minWidth: column.minWidth }}
                   >
@@ -429,7 +429,7 @@ function App() {
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((row, rowIndex) => {
                 return (
-                  <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
+                  <TableRow hover role="checkbox" tabIndex={-1} key={`${row.id}-${rowIndex}`}>
                     {columns.map((column) => {
                       if(column.id === 'action') {
                         // seperate based on row index just for the tour. This will be the third step
