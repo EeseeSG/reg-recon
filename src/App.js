@@ -94,7 +94,7 @@ const DEFAULT_DATA = [
   {
     id: 'DIPPA',
     type: 'ACT',
-    name: "Deposit Insurance an Policy Owners’ Protection Schemes ACT 2011",
+    name: "Deposit Insurance and Policy Owners' Protection Schemes Act 2011",
     url: 'https://sso.agc.gov.sg/Act/DIPOPSA2011',
     source: 'sso',
   },
@@ -109,7 +109,7 @@ const DEFAULT_DATA = [
   {
     id: 'FAA',
     type: 'ACT',
-    name: 'Financial Advisors Act 2001',
+    name: 'Financial Advisers Act 2001',
     url: 'https://sso.agc.gov.sg/Act/FAA2001',
     source: 'sso',
   },
