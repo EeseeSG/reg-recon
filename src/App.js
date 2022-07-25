@@ -45,6 +45,7 @@ import TaskAltIcon from '@mui/icons-material/TaskAlt';
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 
 const DEFAULT_DATA = [
+  // == MAIN ==
   {
     id: 0,
     type: 'WEB',
@@ -52,81 +53,167 @@ const DEFAULT_DATA = [
     url: 'https://www.mas.gov.sg/regulation/regulations-and-guidance?rows=All',
     source: 'mas',
   },
+  // == B ==
   {
-    id: 1,
-    type: 'ACT',
-    name: 'Currency Act 1967',
-    url: 'https://sso.agc.gov.sg/Act/CA1967',
-    source: 'sso',
-  },
-  {
-    id: 2,
-    type: 'ACT',
-    name: 'Deposit Insurance an Policy Owners’ Protection Schemes ACT 2011',
-    url: 'https://sso.agc.gov.sg/Act/DIPOPSA2011',
-    source: 'sso',
-  },
-  {
-    id: 3,
+    id: 'BA',
     type: 'ACT',
     name: 'Banking Act 1970',
     url: 'https://sso.agc.gov.sg/Act/BA1970',
     source: 'sso',
   },
   {
-    id: 4,
+    id: 'BR',
     type: 'ACT',
-    name: 'Securities and Futures Act 2001',
-    url: 'https://sso.agc.gov.sg/Act/SFA2001',
+    name: "Banking Regulations",
+    url: 'https://sso.agc.gov.sg/SL/19-RG5',
     source: 'sso',
   },
   {
-    id: 5,
+    id: 'BRCG',
+    type: 'ACT',
+    name: "Banking (Corporate Governance) Regulations 2005",
+    url: 'https://sso.agc.gov.sg/SL/BA1970-S583-2005',
+    source: 'sso',
+  },
+  {
+    id: 'BRCC',
+    type: 'ACT',
+    name: "Banking (Credit Card and Charge Card) Regulations 2013",
+    url: 'https://sso.agc.gov.sg/SL/BA1970-S729-2013',
+    source: 'sso',
+  },
+  // == C ==
+  {
+    id: 'CA',
+    type: 'ACT',
+    name: 'Currency Act 1967',
+    url: 'https://sso.agc.gov.sg/Act/CA1967',
+    source: 'sso',
+  },
+  // == D ==
+  {
+    id: 'DIPPA',
+    type: 'ACT',
+    name: "Deposit Insurance an Policy Owners’ Protection Schemes ACT 2011",
+    url: 'https://sso.agc.gov.sg/Act/DIPOPSA2011',
+    source: 'sso',
+  },
+  {
+    id: 'DIPPR',
+    type: 'ACT',
+    name: "Deposit Insurance and Policy Owners' Protection Schemes (Deposit Insurance) Regulations 2011",
+    url: 'https://sso.agc.gov.sg/SL/DIPOPSA2011-S239-2011',
+    source: 'sso',
+  },
+  // == F ==
+  {
+    id: 'FAA',
     type: 'ACT',
     name: 'Financial Advisors Act 2001',
     url: 'https://sso.agc.gov.sg/Act/FAA2001',
     source: 'sso',
   },
   {
-    id: 6,
+    id: 'FAR',
+    type: 'ACT',
+    name: "Financial Advisers Regulations",
+    url: 'https://sso.agc.gov.sg/SL/FAA2001-RG2',
+    source: 'sso',
+  },
+  // == G ==
+  {
+    id: 'GSR',
+    type: 'ACT',
+    name: "Government Securities Regulations",
+    url: 'https://sso.agc.gov.sg/SL/GSDMIA1992-RG1',
+    source: 'sso',
+  },
+  // == I ==
+  {
+    id: 'IA',
     type: 'ACT',
     name: 'Insurance Act 1966',
     url: 'https://sso.agc.gov.sg/Act/IA1966',
     source: 'sso',
   },
   {
-    id: 7,
+    id: 'IRI',
     type: 'ACT',
-    name: 'Payment Services Act 2019',
-    url: 'https://sso.agc.gov.sg/Acts-Supp/2-2019/Published/20190220?DocDate=20190220',
+    name: "Insurance (Intermediaries) Regulations",
+    url: 'https://sso.agc.gov.sg/SL/IA1966-RG16',
+    source: 'sso',
+  },
+  // == M ==
+  {
+    id: 'MASA',
+    type: 'ACT',
+    name: 'Monetary Authority of Singapore Act 1970',
+    url: 'https://sso.agc.gov.sg/Act/MASA1970',
     source: 'sso',
   },
   {
-    id: 8,
+    id: 'MASR',
+    type: 'ACT',
+    name: "Monetary Authority of Singapore (Resolution of Financial Institutions) Regulations 2018",
+    url: 'https://sso.agc.gov.sg/SL/MASA1970-S714-2018',
+    source: 'sso',
+  },
+  // == P ==
+  {
+    id: 'PSA',
+    type: 'ACT',
+    name: 'Payment Services Act 2019',
+    url: 'https://sso.agc.gov.sg/Acts-Supp/2-2019/Published/20190220',
+    source: 'sso',
+  },
+  {
+    id: 'PSS',
     type: 'ACT',
     name: 'Payment and Settlement Systems (Finality and Netting Act) 2002',
     url: 'https://sso.agc.gov.sg/Act/PSSFNA2002',
     source: 'sso',
   },
+  // == S ==
   {
-    id: 9,
+    id: 'SFA',
     type: 'ACT',
-    name: 'MAS Act (Cap. 186)',
-    url: 'https://sso.agc.gov.sg/Act/MASA1970',
+    name: 'Securities and Futures Act 2001',
+    url: 'https://sso.agc.gov.sg/Act/SFA2001',
     source: 'sso',
   },
   {
-    id: 10,
+    id: 'SFR1',
     type: 'ACT',
-    name: 'Banking (Publication and Provision of Accounts) Regulation',
-    url: 'https://sso.agc.gov.sg/SL/19-RG2?DocDate=20040229',
+    name: "Securities and Futures (Licensing And Conduct Of Business) Regulations",
+    url: 'https://sso.agc.gov.sg/SL/SFA2001-RG10',
     source: 'sso',
   },
   {
-    id: 11,
+    id: 'SFR2',
     type: 'ACT',
-    name: "Deposit Insurance and Policy Owners' Protection Schemes (Deposit Insurance) Regulations 2011",
-    url: 'https://sso.agc.gov.sg/Act/MASA1970',
+    name: "Securities And Futures (Offers Of Investments) (Collective Investment Schemes) Regulations 2005 (G.N. No. S 602/2005)",
+    url: 'https://sso.agc.gov.sg/SL/SFA2001-S602-2005',
+    source: 'sso',
+  },
+  {
+    id: 'SFR3',
+    type: 'ACT',
+    name: "Securities and Futures (Offers Of Investments) (Securities and Securities-based Derivatives Contracts) Regulations 2018",
+    url: 'https://sso.agc.gov.sg/SL/SFA2001-S664-2018',
+    source: 'sso',
+  },
+  {
+    id: 'SFR4',
+    type: 'ACT',
+    name: "Securities and Futures (Financial Benchmarks) Regulations 2018",
+    url: 'https://sso.agc.gov.sg/SL/SFA2001-S642-2018',
+    source: 'sso',
+  },
+  {
+    id: 'SFR5',
+    type: 'ACT',
+    name: "Securities and Futures (Disclosure of Interests) Regulations 2012 (G.N. No. S 504/2012)",
+    url: 'https://sso.agc.gov.sg/SL/SFA2001-S504-2012',
     source: 'sso',
   },
 ]
