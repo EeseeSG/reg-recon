@@ -167,9 +167,16 @@ const DEFAULT_DATA = [
     source: 'sso',
   },
   {
+    id: 'PSR',
+    type: 'ACT',
+    name: 'Payment Services Regulations 2019',
+    url: 'https://sso.agc.gov.sg/SL/PSA2019-S810-2019',
+    source: 'sso',
+  },
+  {
     id: 'PSS',
     type: 'ACT',
-    name: 'Payment and Settlement Systems (Finality and Netting Act) 2002',
+    name: 'Payment and Settlement Systems (Finality and Netting) Act 2002',
     url: 'https://sso.agc.gov.sg/Act/PSSFNA2002',
     source: 'sso',
   },
@@ -216,6 +223,34 @@ const DEFAULT_DATA = [
     url: 'https://sso.agc.gov.sg/SL/SFA2001-S504-2012',
     source: 'sso',
   },
+  {
+    id: 'X_GSA',
+    type: 'ACT',
+    name: "Government Securities Act",
+    url: 'https://sso.agc.gov.sg/Act-Rev/GSDMIA1992/Published/20211231',
+    source: 'sso',
+  },
+  {
+    id: 'X_MASR',
+    type: 'ACT',
+    name: "Monetary Authority of Singapore (Book-Entry MAS Securities and Primary Dealers) Regulations 2013 (G.N. No. S 240/2013)",
+    url: 'https://sso.agc.gov.sg/SL/MASA1970-S240-2013',
+    source: 'sso',
+  },
+  {
+    id: 'X_CBA',
+    type: 'ACT',
+    name: "Credit Bureau Act 2016",
+    url: 'https://sso.agc.gov.sg/Act/CBA2016',
+    source: 'sso',
+  },
+  {
+    id: 'X_SFR',
+    type: 'ACT',
+    name: "Securities and Futures (Market Conduct) (Exemptions) Regulations 2006",
+    url: 'https://sso.agc.gov.sg/SL/SFA2001-S148-2006',
+    source: 'sso',
+  }
 ]
 
 const columns = [
